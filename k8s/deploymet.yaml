@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radar-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: radar-app
+  template:
+    metadata:
+      labels:
+        app: radar-app
+    spec:
+      containers:
+      - name: radar-container
+        image: radarsimops:latest
+        ports:
+        - containerPort: 5000
