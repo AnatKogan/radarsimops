@@ -1,12 +1,13 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 WORKDIR /radar
 
-# מעתיקים את כל קבצי האפליקציה
-COPY radar_sim/ /radar/
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# מתקינים Flask ישירות
-RUN pip install --no-cache-dir flask
+# Copy the application code
+COPY radar_sim/ .
 
 EXPOSE 5000
 
