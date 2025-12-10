@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radar-deployment
+  labels:
+    app: radar-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: radar-app
+  template:
+    metadata:
+      labels:
+        app: radar-app
+    spec:
+      containers:
+        - name: radar-container
+          image: radarsimops:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+
+          # בדיקות בריאות – המערכת קוראת ל-/health בתוך הקונטיינר
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 3
+            periodSeconds: 5
